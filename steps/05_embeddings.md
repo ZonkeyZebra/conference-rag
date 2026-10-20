@@ -98,24 +98,16 @@ Replace `YOUR_PROJECT_REF` with the value from your `config.secret.json`.
 supabase secrets set OPENAI_API_KEY=sk-proj-YOUR_KEY_HERE
 ```
 
-#### 4. Create the embed-question Function
+#### 4. Configure the embed-question Function
 
-Ask your AI assistant to help you create the Edge Function:
-
-> 🤖 **Tell your AI assistant**: *"I need to create a Supabase Edge Function called `embed-question`. It should:*
-> - *Accept a POST request with `{ "question": "..." }` in the body*
-> - *Use the OpenAI API to generate an embedding with `text-embedding-3-small`*
-> - *Return `{ "embedding": [...] }` in the response*
-> - *Handle CORS for cross-origin requests from GitHub Pages*
-> - *Verify the user is authenticated before processing"*
-
-The function lives at: `supabase/functions/embed-question/index.ts`
-
-You'll also need a shared CORS helper at: `supabase/functions/_shared/cors.ts`
+The function implementation is included at `supabase/functions/embed-question/index.ts`.
+It verifies the caller's access token with Supabase Auth, handles CORS for GitHub
+Pages, and calls OpenAI using the server-side `OPENAI_API_KEY` secret. Shared
+authentication and CORS helpers live in `supabase/functions/_shared/`.
 
 > 💡 **Need a reference?** You can see a working implementation at [github.com/michaeltreynolds/cragger](https://github.com/michaeltreynolds/cragger/tree/main/supabase/functions)
 
-> ⚠️ **Auth note**: Supabase is currently transitioning its JWT verification approach. Deploy with `--no-verify-jwt` and handle authentication manually inside your function using the `Authorization` header. See the cragger repo's `_shared/auth.ts` for this pattern.
+> ⚠️ **Auth note**: Deploy with `--no-verify-jwt`; the function manually verifies the caller's `Authorization` bearer token against Supabase Auth.
 
 #### 5. Deploy the Function
 
