@@ -1,4 +1,4 @@
 {
-    "SUPABASE_URL": "https://YOUR_PROJECT_REF.supabase.co",
-    "SUPABASE_ANON_KEY": "YOUR_SUPABASE_ANON_KEY_HERE"
+    "SUPABASE_URL": "https://nutyskzdaueujafglrur.supabase.co",
+    "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im51dHlza3pkYXVldWphZmdscnVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1MzAyODAsImV4cCI6MjEwODEwNjI4MH0.jttWk5mLZl5Ggp4ho4RrcLJr3pG-qrz0xCqXHdtiQrw"
 }

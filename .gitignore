@@ -43,6 +43,7 @@ __pycache__/
 
 # Secrets (NEVER commit these!)
 config.secret.json
+secrets.txt
 
 # Intermediate data outputs
 scripts/output/
