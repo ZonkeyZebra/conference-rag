@@ -18,19 +18,13 @@ This is the culmination of everything you've built. Keyword search finds exact w
 
 ## What to Do
 
-### 1. Create the generate-answer Edge Function
+### 1. Configure the generate-answer Edge Function
 
-You need one more Edge Function: `generate-answer`. Ask your AI assistant to help:
-
-> 🤖 **Tell your AI assistant**: *"I need to create a Supabase Edge Function called `generate-answer`. It should:*
-> - *Accept a POST request with `{ "question": "...", "context_talks": [...] }` in the body*
-> - *Each context talk has `{ title, speaker, text }`*
-> - *Use GPT-4o to generate an answer based on the provided conference talk context*
-> - *The prompt should instruct GPT to cite which talks it draws from*
-> - *Return `{ "answer": "..." }` in the response*
-> - *Handle CORS and verify authentication (same pattern as embed-question)"*
-
-The function lives at: `supabase/functions/generate-answer/index.ts`
+The `generate-answer` Edge Function is included at
+`supabase/functions/generate-answer/index.ts`. It verifies the user's access
+token with Supabase Auth, applies the shared CORS policy, and calls GPT-4o with
+the retrieved talk context. Keep `OPENAI_API_KEY` configured as a Supabase
+secret; never put it in browser code.
 
 > 💡 **Need a reference?** See [github.com/michaeltreynolds/cragger/tree/main/supabase/functions](https://github.com/michaeltreynolds/cragger/tree/main/supabase/functions)
 
