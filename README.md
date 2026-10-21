@@ -115,6 +115,9 @@ conference-rag/
 
 ## 📚 Learning Objectives
 
+For explanations of each objective and how the project implements it, see
+[Learning Objectives Guide](learning_objects.md).
+
 1. **Vector Embeddings** — Representing text as searchable numbers
 2. **Semantic Search** — Finding similar content with cosine similarity
 3. **RAG Architecture** — Combining retrieval + generation
