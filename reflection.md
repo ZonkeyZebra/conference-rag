@@ -17,6 +17,8 @@ Trusted local setup scripts ──> SUPABASE_SERVICE_KEY
                                  (kept out of browser code and Git)
 ```
 
+![image of diagram above](./application_data_flow_and_security_diagram.jpg)
+
 The anon key is intended to identify the Supabase project in client-side
 applications, so it is expected to be visible in `config.public.json` and in
 browser network requests. It is not a password and does not, by itself, grant
