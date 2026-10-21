@@ -1,0 +1,2 @@
+# Custom Feature Description
+I decided to add a topic/theme analyzer for each General Conference. A user is able to select the year and and month and they are given the top three topics that came up during that conference with some talks that are examples of that topic being discussed with a link to the talk. I selected this feature as I thought it would be interesting to see how using embeddings/AI could help to identify common themes between all the talks for each conference.
