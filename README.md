@@ -95,6 +95,7 @@ conference-rag/
 │   ├── 03_import_data.py       # Import text to Supabase (🔍 keyword!)
 │   ├── 04_embed_data.py        # Generate embeddings → scripts/output/ (💰 saved to disk!)
 │   ├── 05_update_embeddings.py # Update DB with embeddings (🧠 semantic!)
+│   ├── 06_generate_conference_themes.py # Precompute recurring conference teachings
 │   └── output/                 # Intermediate data files (git-ignored)
 └── supabase/                   # Edge Functions (YOU create this with supabase init)
     └── functions/
@@ -141,6 +142,7 @@ conference-rag/
 | "Failed to get embedding" | Deploy Edge Functions and set OPENAI_API_KEY secret |
 | "Database search failed" | Run `scripts/01_create_schema.py` |
 | No search results | Import data with `scripts/03_import_data.py` |
+| Conference themes are unavailable | Run `python scripts/06_generate_conference_themes.py` and commit `conference_themes.json` |
 
 ## 📄 License
 

@@ -133,6 +133,24 @@
                     <div class="search-results" id="rag-results"></div>
                 </div>
             </div>
+
+            <section class="search-panel conference-themes-panel">
+                <div class="panel-header">
+                    <h3>📚 Common Conference Teachings</h3>
+                    <span class="status-badge not-ready" id="themes-status">⏳ Loading</span>
+                </div>
+                <p class="panel-description">
+                    Explore three recurring teachings from each conference, with links to example talks.
+                </p>
+                <div class="theme-controls">
+                    <label for="conference-select">Conference:</label>
+                    <select id="conference-select" disabled>
+                        <option>Loading conference themes...</option>
+                    </select>
+                </div>
+                <p id="themes-message" class="theme-message" aria-live="polite"></p>
+                <div id="conference-themes-results" class="theme-results"></div>
+            </section>
         </div>
     </div>
 

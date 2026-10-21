@@ -477,6 +477,84 @@ input:focus {
     opacity: 0.6;
 }
 
+.conference-themes-panel {
+    opacity: 1;
+}
+
+.theme-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.theme-controls label {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.theme-controls select {
+    min-width: 220px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--background);
+    border: 2px solid var(--surface-light);
+    border-radius: var(--radius-md);
+    color: var(--text);
+    font: inherit;
+}
+
+.theme-controls select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.theme-controls select:disabled {
+    opacity: 0.6;
+}
+
+.theme-message {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.theme-card {
+    background: var(--background);
+    border: 1px solid var(--surface-light);
+    border-left: 3px solid var(--primary);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+}
+
+.theme-card h4 {
+    color: var(--primary);
+    font-size: 1.05rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.theme-card p {
+    color: var(--text);
+    margin-bottom: var(--spacing-sm);
+}
+
+.theme-citations strong {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.theme-citations ul {
+    margin: var(--spacing-xs) 0 0 var(--spacing-md);
+}
+
+.theme-citations li {
+    margin-bottom: 0.25rem;
+}
+
+.theme-citations a {
+    color: var(--primary);
+}
+
 .panel-header {
     display: flex;
     justify-content: space-between;
@@ -760,5 +838,14 @@ input:focus {
 
     .panel-input {
         flex-direction: column;
+    }
+
+    .theme-controls {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .theme-controls select {
+        width: 100%;
     }
 }

@@ -32,6 +32,30 @@ Congratulations! You built a production-ready RAG application from scratch.
 
 Be creative! Have fun! This is your chance to show you understand the system well enough to extend it.
 
+### Conference Teaching Summaries
+
+The app can show the top three AI-synthesized recurring teachings for each
+April/October conference, with links to example talks. To generate the static
+data file used by GitHub Pages:
+
+1. Make sure `scripts/output/talks.json` exists (run `python scripts/02_scrape_data.py` if needed).
+2. Make sure `config.secret.json` contains your OpenAI API key.
+3. Run:
+
+   ```bash
+   python scripts/06_generate_conference_themes.py
+   ```
+
+4. Commit `conference_themes.json` with your site changes so GitHub Pages can
+   load it. The script caches completed conferences locally in the ignored
+   `scripts/output/` directory and reuses them on subsequent runs.
+
+The summaries are AI-generated interpretations of recurring themes, not a
+statistical count of every mention. Each displayed source link is matched back
+to a talk in the input dataset. Generating them uses the OpenAI API once per
+conference; the local cache avoids repeating calls for conferences whose source
+talks have not changed.
+
 ## 📝 Reflection Questions
 
 Answer these in your submission. Use your AI assistant to discuss these — it can prompt you with follow-up questions to deepen your understanding.

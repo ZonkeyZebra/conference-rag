@@ -83,6 +83,12 @@ const ragInput = document.getElementById('rag-input');
 const ragBtn = document.getElementById('rag-btn');
 const ragResults = document.getElementById('rag-results');
 const ragStatus = document.getElementById('rag-status');
+const conferenceSelect = document.getElementById('conference-select');
+const conferenceThemesResults = document.getElementById('conference-themes-results');
+const themesMessage = document.getElementById('themes-message');
+const themesStatus = document.getElementById('themes-status');
+let conferenceThemeData = null;
+let conferenceThemesPromise = null;
 
 // ============================================
 // SETUP BANNER DETECTION
@@ -284,8 +290,113 @@ function showApp(user) {
     if (loginScreen) loginScreen.classList.add('hidden');
     if (appScreen) appScreen.classList.remove('hidden');
     if (userEmailSpan) userEmailSpan.textContent = user.email;
+    loadConferenceThemes();
     // Check search readiness when user logs in
     checkSearchReadiness();
+}
+
+async function loadConferenceThemes() {
+    if (conferenceThemeData) return;
+    if (conferenceThemesPromise) return conferenceThemesPromise;
+    if (!conferenceSelect || !conferenceThemesResults || !themesMessage) return;
+
+    conferenceThemesPromise = (async () => {
+        try {
+            const response = await fetch('conference_themes.json');
+            if (!response.ok) {
+                throw new Error(`Could not load conference_themes.json (HTTP ${response.status})`);
+            }
+
+            const data = await response.json();
+            if (!data || !Array.isArray(data.conferences) || data.conferences.length === 0) {
+                throw new Error('The conference themes file contains no conference data.');
+            }
+
+            const conferences = data.conferences.filter(conference =>
+                Number.isInteger(conference.year) &&
+                ['April', 'October'].includes(conference.season) &&
+                Array.isArray(conference.themes) &&
+                conference.themes.length > 0
+            );
+            if (conferences.length === 0) {
+                throw new Error('The conference themes file contains no valid conference entries.');
+            }
+
+            conferences.sort((a, b) =>
+                b.year - a.year ||
+                (b.season === 'October' ? 1 : -1)
+            );
+            conferenceThemeData = conferences;
+            conferenceSelect.replaceChildren(...conferences.map(conference => {
+                const option = document.createElement('option');
+                option.value = `${conference.year}-${conference.season}`;
+                option.textContent = `${conference.season} ${conference.year}`;
+                return option;
+            }));
+            conferenceSelect.disabled = false;
+            themesStatus.textContent = '✅ Ready';
+            themesStatus.className = 'status-badge ready';
+            renderConferenceThemes();
+        } catch (error) {
+            console.error('Failed to load conference themes:', error);
+            themesStatus.textContent = '⚠️ Not available';
+            themesStatus.className = 'status-badge not-ready';
+            themesMessage.textContent =
+                'Conference themes are not available. Generate conference_themes.json by following Step 7 in the README.';
+            conferenceThemesResults.replaceChildren();
+        } finally {
+            conferenceThemesPromise = null;
+        }
+    })();
+    return conferenceThemesPromise;
+}
+
+function renderConferenceThemes() {
+    if (!conferenceThemeData || !conferenceSelect || !conferenceThemesResults) return;
+    const [year, season] = conferenceSelect.value.split('-');
+    const conference = conferenceThemeData.find(item =>
+        item.year === Number(year) && item.season === season
+    );
+    if (!conference) {
+        conferenceThemesResults.replaceChildren();
+        if (themesMessage) themesMessage.textContent = 'No themes are available for this conference.';
+        return;
+    }
+
+    if (themesMessage) themesMessage.textContent =
+        'AI-synthesized recurring teachings, not a statistical count of every mention.';
+    conferenceThemesResults.innerHTML = conference.themes.map((theme, index) => {
+        const sources = Array.isArray(theme.talks) ? theme.talks : [];
+        const sourceLinks = sources.map(talk => {
+            const url = safeConferenceTalkUrl(talk.url);
+            const label = `${escapeHtml(talk.title)} — ${escapeHtml(talk.speaker)}`;
+            return url
+                ? `<li><a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${label}</a></li>`
+                : `<li>${label}</li>`;
+        }).join('');
+        return `<article class="theme-card">
+            <h4>${index + 1}. ${escapeHtml(theme.title)}</h4>
+            <p>${escapeHtml(theme.description)}</p>
+            <div class="theme-citations">
+                <strong>Example talks</strong>
+                <ul>${sourceLinks || '<li>No source talks listed.</li>'}</ul>
+            </div>
+        </article>`;
+    }).join('');
+}
+
+function safeConferenceTalkUrl(value) {
+    if (typeof value !== 'string') return null;
+    try {
+        const url = new URL(value);
+        return url.protocol === 'https:' ? url.href : null;
+    } catch {
+        return null;
+    }
+}
+
+if (conferenceSelect) {
+    conferenceSelect.addEventListener('change', renderConferenceThemes);
 }
 
 function showMessage(text, type) {
